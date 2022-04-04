@@ -14,7 +14,6 @@ Live : [Love&Coffe-Live](https://love-coffee.netlify.app/)
 ## **Functionality**
 * Routes
   * `/products` -> Sends a list of all products from ProductList.js on receving a GET request.
-  * 
 * Images
   * Also serves product images from static public folder.
 

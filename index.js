@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-mongoose.connect("mongodb://localhost:27017/lovecoffeeDB");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/lovecoffeeDB");
 
 const userSchema = new mongoose.Schema({
   email: {type: String, unique: true, required: true},
@@ -93,7 +93,7 @@ VeryBerry.save(); */
 app.listen(PORT, () => console.log(`Server listening on PORT ${PORT}`));
 
 app.route("/products").get((req, res) => {
-  const ProductList = Product.find((err, ProductList) => {
+  Product.find((err, ProductList) => {
     if (err) {
       res.status(500);
       console.log("Here");

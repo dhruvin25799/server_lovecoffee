@@ -97,21 +97,6 @@ app.route("/login").post(async (req, res) => {
     res.status(500);
     res.send();
   }
-
-  User.findOne({ email: userEmail }, (err, foundUser) => {
-    if (err) {
-    } else {
-      if (foundUser) {
-      } else {
-        res.status(404);
-        res.send(
-          JSON.stringify({
-            error: "User not found!",
-          })
-        );
-      }
-    }
-  });
 });
 
 app.route("/user/cart").get(async (req, res) => {

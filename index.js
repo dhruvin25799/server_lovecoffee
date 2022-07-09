@@ -43,6 +43,7 @@ app.route("/register").post(async (req, res) => {
         shippingCharges: "0",
       },
       wishlist: [],
+      address: [],
     });
     await newUser.save();
     res.status(200);
@@ -99,14 +100,14 @@ app.route("/login").post(async (req, res) => {
   }
 });
 
-app.route("/user/cart").get(async (req, res) => {
+app.route("/user/wishlist").get(async (req, res) => {
   const token = req.headers["authorization"];
   try {
     const decoded = helpers.verifyToken(token);
     const userId = decoded.foundUser._id;
     const foundUser = await helpers.findUser(userId);
     res.status(200);
-    res.send(JSON.stringify(foundUser.cart));
+    res.send(JSON.stringify(foundUser.wishlist));
   } catch (err) {
     res.status(403);
     res.send(
@@ -117,14 +118,14 @@ app.route("/user/cart").get(async (req, res) => {
   }
 });
 
-app.route("/user/wishlist").get(async (req, res) => {
+app.route("/user/address").get(async (req, res) => {
   const token = req.headers["authorization"];
   try {
     const decoded = helpers.verifyToken(token);
     const userId = decoded.foundUser._id;
     const foundUser = await helpers.findUser(userId);
     res.status(200);
-    res.send(JSON.stringify(foundUser.wishlist));
+    res.send(JSON.stringify(foundUser.address));
   } catch (err) {
     res.status(403);
     res.send(

@@ -136,6 +136,27 @@ app.route("/user/address").get(async (req, res) => {
   }
 });
 
+app.route("/user/address/add").post(async (req, res) => {
+  const token = req.headers["authorization"];
+  try {
+    const decoded = helpers.verifyToken(token);
+    const address = req.body.address;
+    const userId = decoded.foundUser._id;
+    const foundUser = await helpers.findUser(userId);
+    foundUser.address.push(address);
+    await foundUser.save();
+    res.status(200);
+    res.send(JSON.stringify(foundUser.address));
+  } catch (err) {
+    res.status(403);
+    res.send(
+      JSON.stringify({
+        error: "Your token has expired or invalid. Please authenticate again.",
+      })
+    );
+  }
+});
+
 app
   .route("/user/wishlist/:productId")
   .post(async (req, res) => {

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const helpers = require("./helpers");
+const { v4: uuidv4 } = require("uuid");
 const saltRounds = 10;
 const PORT = process.env.PORT || 3001;
 
@@ -143,7 +144,30 @@ app.route("/user/address/add").post(async (req, res) => {
     const address = req.body.address;
     const userId = decoded.foundUser._id;
     const foundUser = await helpers.findUser(userId);
-    foundUser.address.push(address);
+    foundUser.address.push({ _id: uuidv4(), ...address });
+    await foundUser.save();
+    res.status(200);
+    res.send(JSON.stringify(foundUser.address));
+  } catch (err) {
+    res.status(403);
+    res.send(
+      JSON.stringify({
+        error: "Your token has expired or invalid. Please authenticate again.",
+      })
+    );
+  }
+});
+
+app.route("/user/address/delete/:addressId").delete(async (req, res) => {
+  const token = req.headers["authorization"];
+  try {
+    const decoded = helpers.verifyToken(token);
+    const addressId = req.params.addressId;
+    const userId = decoded.foundUser._id;
+    const foundUser = await helpers.findUser(userId);
+    foundUser.address = foundUser.address.filter(
+      (address) => address._id !== addressId
+    );
     await foundUser.save();
     res.status(200);
     res.send(JSON.stringify(foundUser.address));

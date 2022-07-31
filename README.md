@@ -4,7 +4,7 @@
 
 ## **Description**
 This is an Express NodeJS app serving backend APIs for an E-commerce React app.\
-Live API : [/products](https://server-lovecoffee.herokuapp.com/products)\
+Live API : [/products](https://dull-crow-tweed-jacket.cyclic.app/products)\
 This app is currently deployed on Heroku to publish API for a React App.\
 Github : [Love&Coffee-Github](https://github.com/dhruvin25799/lovecoffee_final)\
 Live : [Love&Coffe-Live](https://love-coffee.netlify.app/)
